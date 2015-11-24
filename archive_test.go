@@ -9,7 +9,7 @@ import (
 	"io"
 )
 
-func Testwriter(t *testing.T) {
+func TestWriter(t *testing.T) {
 	buf := new(bytes.Buffer)
 
 	options := *DefaultOptions
@@ -45,7 +45,7 @@ func Testwriter(t *testing.T) {
 	}
 }
 
-func Testreader(t *testing.T) {
+func TestReader(t *testing.T) {
 	buf := new(bytes.Buffer)
 
 	options := *DefaultOptions
