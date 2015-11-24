@@ -1,4 +1,4 @@
-# Thargo /tɑːr ɡəʊ/ (tar-go) [![](https://godoc.org/github.com/emssconsulting/thargo?status.svg)](http://godoc.org/github.com/emssconsulting/thargo)
+# Thargo /tɑːr ɡəʊ/ (tar-go) [![Build Status](https://travis-ci.org/EMSSConsulting/Thargo.svg?branch=master)](https://travis-ci.org/EMSSConsulting/Thargo) [![](https://godoc.org/github.com/emssconsulting/thargo?status.svg)](http://godoc.org/github.com/emssconsulting/thargo)
 **A tar+gzip compression and extraction library for Golang**
 
 Thargo is a library for Go which provides everything necessary for creating and decompressing
