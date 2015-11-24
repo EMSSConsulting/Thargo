@@ -3,6 +3,7 @@ package thargo
 import (
 	"os"
 	"path/filepath"
+  "github.com/bmatcuk/doublestar"
 )
 
 // FileSystemTarget provides a compression target for file system entries, which are searched
@@ -28,7 +29,7 @@ func (t *FileSystemTarget) Entries() ([]Entry, error) {
 		}
 
 		if t.Pattern != "" {
-			matched, err := filepath.Match(t.Pattern, relativePath)
+			matched, err := doublestar.Match(t.Pattern, filepath.ToSlash(relativePath))
 			if err != nil {
 				return err
 			}
