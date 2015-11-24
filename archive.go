@@ -1,3 +1,11 @@
+// Package thargo provides an easy to use API for archiving and compressing
+// various data structures using a combination of the tar and gzip formats.
+// Thargo provides a higher level abstraction than that offered by the built
+// in archive/tar and compress/gzip packages, treating compression as the
+// inclusion of a number of entries (provided by various compression targets)
+// into an archive. This allows for easy expansion to support various input
+// and output targets, while still making their use very straightforward,
+// with a minimum of boilerplate being used.
 package thargo
 
 import (
