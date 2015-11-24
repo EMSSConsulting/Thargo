@@ -6,8 +6,8 @@ import (
 	"testing"
 )
 
-func testGetFile(path string) (*FileEntry, error) {
-	absPath, err := filepath.Abs(path)
+func testGetFile(name string) (*FileEntry, error) {
+	absPath, err := filepath.Abs(name)
 	if err != nil {
 		return nil, err
 	}
@@ -18,7 +18,8 @@ func testGetFile(path string) (*FileEntry, error) {
 	}
 
 	return &FileEntry{
-		Path: path,
+    Name: name,
+		Path: absPath,
 		Info: info,
 	}, nil
 }
