@@ -6,15 +6,14 @@ func (a *Archive) Add(target Target) error {
 	if err != nil {
 		return err
 	}
-  
-  defer writer.Flush()
-  defer writer.Close()
-  
+
+	defer writer.Flush()
+	defer writer.Close()
+
 	entries, err := target.Entries()
 	if err != nil {
 		return err
 	}
-
 
 	for _, entry := range entries {
 		err = writer.Write(entry)
@@ -22,6 +21,6 @@ func (a *Archive) Add(target Target) error {
 			return err
 		}
 	}
-  
+
 	return nil
 }

@@ -12,7 +12,7 @@ type DecompressionVisitor func(entry SaveableEntry) error
 // Extract will decompress this archive into the specified destination
 // directory.
 func (a *Archive) Extract(visit DecompressionVisitor) error {
-  reader, err := a.reader()
+	reader, err := a.reader()
 	if err != nil {
 		return err
 	}

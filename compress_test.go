@@ -1,15 +1,15 @@
 package thargo
 
 import (
+	"bytes"
 	"testing"
-  "bytes"
 )
 
 func TestAddToArchive(t *testing.T) {
 	options := *DefaultOptions
 	options.CreateIfMissing = true
 
-  buf := new(bytes.Buffer)
+	buf := new(bytes.Buffer)
 
 	core := NewArchive(buf, &options)
 

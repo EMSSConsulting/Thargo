@@ -1,3 +1,11 @@
+// Package thargo provides an easy to use API for archiving and compressing
+// various data structures using a combination of the tar and gzip formats.
+// Thargo provides a higher level abstraction than that offered by the built
+// in archive/tar and compress/gzip packages, treating compression as the
+// inclusion of a number of entries (provided by various compression targets)
+// into an archive. This allows for easy expansion to support various input
+// and output targets, while still making their use very straightforward,
+// with a minimum of boilerplate being used.
 package thargo
 
 import (
@@ -19,16 +27,16 @@ func NewArchive(stream io.ReadWriter, options *Options) *Archive {
 	if options == nil {
 		options = DefaultOptions
 	}
-  
+
 	return &Archive{
-		Stream:    stream,
+		Stream:  stream,
 		Options: *options,
 	}
 }
 
 func (a *Archive) reader() (*tar.Reader, error) {
-  reader := io.Reader(a.Stream)
-  
+	reader := io.Reader(a.Stream)
+
 	if a.Options.GZip {
 		gr, err := gzip.NewReader(reader)
 		if err != nil {
@@ -41,9 +49,9 @@ func (a *Archive) reader() (*tar.Reader, error) {
 	return tar.NewReader(reader), nil
 }
 
-func (a *Archive) writer() (*TharWriter, error) {
-  writer := io.Writer(a.Stream)
-  
+func (a *Archive) writer() (*tharWriter, error) {
+	writer := io.Writer(a.Stream)
+
 	flushers := []flushableWriter{}
 	closers := []closeableWriter{}
 
@@ -65,7 +73,7 @@ func (a *Archive) writer() (*TharWriter, error) {
 	tw := tar.NewWriter(writer)
 	flushers = append([]flushableWriter{tw}, flushers...)
 
-	return &TharWriter{
+	return &tharWriter{
 		Writer:   tw,
 		Flushers: flushers,
 		Closers:  closers,

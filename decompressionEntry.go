@@ -2,8 +2,8 @@ package thargo
 
 import (
 	"archive/tar"
+	"fmt"
 	"io"
-  "fmt"
 )
 
 // DecompressionEntry represents an entry within a tar archive
@@ -20,7 +20,7 @@ func newDecompressionEntry(archive *tar.Reader) (*DecompressionEntry, error) {
 	}
 
 	if err != nil {
-    return nil, fmt.Errorf("Failed to read header: %s", err)
+		return nil, fmt.Errorf("Failed to read header: %s", err)
 	}
 
 	if header == nil {
