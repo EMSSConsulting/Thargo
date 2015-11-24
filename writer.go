@@ -5,9 +5,9 @@ import (
 	"io"
 )
 
-// TharWriter is a buffered IO wrapper which provides functionality for writing
+// tharWriter is a buffered IO wrapper which provides functionality for writing
 // CompressionEntry entities into a tar archive.
-type TharWriter struct {
+type tharWriter struct {
 	Writer   *tar.Writer
 	Flushers []flushableWriter
 	Closers  []closeableWriter
@@ -24,7 +24,7 @@ type closeableWriter interface {
 }
 
 // Write will write a compression entry into the tar archive
-func (w *TharWriter) Write(entry Entry) error {
+func (w *tharWriter) Write(entry Entry) error {
 	header, err := entry.Header()
 	if err != nil {
 		return err
@@ -48,7 +48,7 @@ func (w *TharWriter) Write(entry Entry) error {
 	return nil
 }
 
-func (w *TharWriter) Flush() error {
+func (w *tharWriter) Flush() error {
 	for _, writer := range w.Flushers {
 		if err := writer.Flush(); err != nil {
 			return err
@@ -58,7 +58,7 @@ func (w *TharWriter) Flush() error {
 	return nil
 }
 
-func (w *TharWriter) Close() error {
+func (w *tharWriter) Close() error {
 	for _, writer := range w.Closers {
 		if err := writer.Close(); err != nil {
 			return err

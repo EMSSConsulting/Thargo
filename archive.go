@@ -41,7 +41,7 @@ func (a *Archive) reader() (*tar.Reader, error) {
 	return tar.NewReader(reader), nil
 }
 
-func (a *Archive) writer() (*TharWriter, error) {
+func (a *Archive) writer() (*tharWriter, error) {
   writer := io.Writer(a.Stream)
   
 	flushers := []flushableWriter{}
@@ -65,7 +65,7 @@ func (a *Archive) writer() (*TharWriter, error) {
 	tw := tar.NewWriter(writer)
 	flushers = append([]flushableWriter{tw}, flushers...)
 
-	return &TharWriter{
+	return &tharWriter{
 		Writer:   tw,
 		Flushers: flushers,
 		Closers:  closers,
