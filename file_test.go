@@ -18,8 +18,8 @@ func testGetFile(path string) (*FileEntry, error) {
 	}
 
 	return &FileEntry{
-		path: path,
-		info: info,
+		Path: path,
+		Info: info,
 	}, nil
 }
 
