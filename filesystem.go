@@ -38,7 +38,7 @@ func (t *FileSystemTarget) Entries() ([]Entry, error) {
 			}
 		}
 
-		entries = append(entries, &FileEntry{path: relativePath, info: f})
+		entries = append(entries, &FileEntry{Path: relativePath, Info: f})
 		return nil
 	}
 
