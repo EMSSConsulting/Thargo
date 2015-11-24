@@ -24,15 +24,15 @@ func NewArchiveFile(path string, options *Options) (*ArchiveFile, error) {
 	if err != nil {
 		return nil, err
 	}
-  
-  // Create the directory necessary to hold the archive file
-  absDirPath := filepath.Dir(absPath)
-  err = os.MkdirAll(absDirPath, os.ModePerm | os.ModeDir)
-  if err != nil {
-    return nil, err
-  }
 
-  // Create the archive file, or open it if it exists already (depening on options)
+	// Create the directory necessary to hold the archive file
+	absDirPath := filepath.Dir(absPath)
+	err = os.MkdirAll(absDirPath, os.ModePerm|os.ModeDir)
+	if err != nil {
+		return nil, err
+	}
+
+	// Create the archive file, or open it if it exists already (depening on options)
 	flags := os.O_RDWR
 	if options.CreateIfMissing {
 		flags = flags | os.O_CREATE

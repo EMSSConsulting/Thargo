@@ -19,16 +19,16 @@ func NewArchive(stream io.ReadWriter, options *Options) *Archive {
 	if options == nil {
 		options = DefaultOptions
 	}
-  
+
 	return &Archive{
-		Stream:    stream,
+		Stream:  stream,
 		Options: *options,
 	}
 }
 
 func (a *Archive) reader() (*tar.Reader, error) {
-  reader := io.Reader(a.Stream)
-  
+	reader := io.Reader(a.Stream)
+
 	if a.Options.GZip {
 		gr, err := gzip.NewReader(reader)
 		if err != nil {
@@ -42,8 +42,8 @@ func (a *Archive) reader() (*tar.Reader, error) {
 }
 
 func (a *Archive) writer() (*tharWriter, error) {
-  writer := io.Writer(a.Stream)
-  
+	writer := io.Writer(a.Stream)
+
 	flushers := []flushableWriter{}
 	closers := []closeableWriter{}
 
