@@ -8,16 +8,20 @@ import (
 func TestFileSystemTarget(t *testing.T) {
 	target := FileSystemTarget{
 		Path:    "./",
-		Pattern: "README*",
+		Pattern: "*.md",
 	}
 
 	entries, err := target.Entries()
 	if err != nil {
 		t.Fatal(err)
 	}
+  
+	if len(entries) == 0 {
+		t.Fatal("Expected an entry to be found for *.md")
+	}
 
 	if len(entries) != 1 {
-		t.Error("Expected one entry to be found for ./, README*")
+		t.Error("Expected only one entry to be found for *.md")
 	}
 
 	header, err := entries[0].Header()
@@ -53,9 +57,13 @@ func TestFileSystemTargetAbsolutePattern(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+  
+	if len(entries) == 0 {
+		t.Fatal("Expected an entry to be found for README's absolute path")
+	}
 
 	if len(entries) != 1 {
-		t.Error("Expected one entry to be found for README's absolute path")
+		t.Error("Expected only one entry to be found for README's absolute path")
 	}
 
 	header, err := entries[0].Header()
@@ -65,5 +73,25 @@ func TestFileSystemTargetAbsolutePattern(t *testing.T) {
 
 	if header.Name != "README.md" {
 		t.Errorf("Expected entry name to be README.md, got %s instead", header.Name)
+	}
+}
+
+func TestFileSystemTargetDirectory(t *testing.T) {
+	target := FileSystemTarget{
+		Path:    "../",
+		Pattern: "thargo",
+	}
+
+	entries, err := target.Entries()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(entries) < 20 {
+		t.Errorf("Expected at least 20 entries to be found, only got %d", len(entries))
+    t.Log("Entries")
+    for _, entry := range entries {
+      t.Logf(" - %#v", entry)
+    }
 	}
 }
