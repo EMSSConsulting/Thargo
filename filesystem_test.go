@@ -27,4 +27,12 @@ func TestFileSystemTarget(t *testing.T) {
 	if header.Name != "README.md" {
 		t.Errorf("Expected entry name to be README.md, got %s instead", header.Name)
 	}
+
+	if header.ChangeTime.IsZero() {
+		t.Errorf("Expected entry change time to be non-zero")
+	}
+
+	if header.AccessTime.IsZero() {
+		t.Errorf("Expected entry access time to be non-zero")
+	}
 }

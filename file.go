@@ -27,6 +27,14 @@ func (f *FileEntry) Header() (*tar.Header, error) {
 		return nil, err
 	}
 
+	if header.AccessTime.IsZero() {
+		header.AccessTime = f.Info.ModTime()
+	}
+
+	if header.ChangeTime.IsZero() {
+		header.ChangeTime = f.Info.ModTime()
+	}
+
 	header.Name = f.Name
 	return header, nil
 }
