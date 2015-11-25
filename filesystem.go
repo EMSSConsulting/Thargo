@@ -44,6 +44,7 @@ func (t *FileSystemTarget) Entries() ([]Entry, error) {
 }
 
 func (t *FileSystemTarget) forAbsolutePath(path string) ([]Entry, error) {
+  log.Printf("forAbsolutePath('%s')", path)
 	entries := []Entry{}
 
 	basePath, err := filepath.Abs(t.Path)
@@ -77,6 +78,7 @@ func (t *FileSystemTarget) forAbsolutePath(path string) ([]Entry, error) {
 }
 
 func (t *FileSystemTarget) forGlobPath(basePath, glob string) ([]Entry, error) {
+  log.Printf("forGlobPath('%s', '%s')", basePath, glob)
 	entries := []Entry{}
 
 	matches, err := doublestar.Glob(basePath, glob)
