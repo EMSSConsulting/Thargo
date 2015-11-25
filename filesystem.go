@@ -4,6 +4,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+  "log"
 
 	"github.com/EMSSConsulting/doublestar"
 )
@@ -19,6 +20,7 @@ type FileSystemTarget struct {
 // included for this target.
 func (t *FileSystemTarget) Entries() ([]Entry, error) {
 	if filepath.IsAbs(t.Pattern) {
+    log.Print("pattern is absolute path")
 		return t.forAbsolutePath(t.Pattern)
 	}
   
@@ -33,9 +35,11 @@ func (t *FileSystemTarget) Entries() ([]Entry, error) {
 	// an absolute path (possibly enumerating a directory's contents)
 	_, err = os.Stat(fullPath)
 	if err != nil {
+    log.Print("pattern requires globbing")
 		return t.forGlobPath(basePath, t.Pattern)
 	}
 
+  log.Print("pattern is node entry")
 	return t.forAbsolutePath(fullPath)
 }
 
@@ -63,9 +67,11 @@ func (t *FileSystemTarget) forAbsolutePath(path string) ([]Entry, error) {
 
 	// If we are given a directory, enumerate its contents recursively
 	if f.IsDir() {
+    log.Print("node is directory")
 		return t.forGlobPath(path, "**")
 	}
 
+  log.Print("node is file")
 	entries = append(entries, &FileEntry{Name: relativePath, Path: path, Info: f})
 	return entries, nil
 }
