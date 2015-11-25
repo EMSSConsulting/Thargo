@@ -42,5 +42,5 @@ func (f *FileEntry) Header() (*tar.Header, error) {
 // Data returns a reader for this file's raw data. You must ensure that
 // the returned reader is closed when you are done with it.
 func (f *FileEntry) Data() (io.Reader, error) {
-	return os.OpenFile(f.Name, os.O_RDONLY, os.ModePerm)
+	return os.OpenFile(f.Path, os.O_RDONLY, os.ModePerm)
 }
