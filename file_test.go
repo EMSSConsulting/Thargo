@@ -18,7 +18,7 @@ func testGetFile(name string) (*FileEntry, error) {
 	}
 
 	return &FileEntry{
-    Name: name,
+		Name: name,
 		Path: absPath,
 		Info: info,
 	}, nil

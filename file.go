@@ -9,14 +9,14 @@ import (
 // FileEntry provides a compression entry type which targets a file
 // on the local file system.
 type FileEntry struct {
-  // Name is the relative path under which the file will be stored within the archive.
-  Name string
-  
-  // Path is the fully qualified path at which the file can be located on the file system. 
-  
+	// Name is the relative path under which the file will be stored within the archive.
+	Name string
+
+	// Path is the fully qualified path at which the file can be located on the file system.
+
 	Path string
-  // Info is the FileInfo object returned from os.Stat for this file.
-  // It is used for retrieving the size, permissions and data contained within the file.
+	// Info is the FileInfo object returned from os.Stat for this file.
+	// It is used for retrieving the size, permissions and data contained within the file.
 	Info os.FileInfo
 }
 
@@ -25,6 +25,14 @@ func (f *FileEntry) Header() (*tar.Header, error) {
 	header, err := tar.FileInfoHeader(f.Info, f.Name)
 	if err != nil {
 		return nil, err
+	}
+
+	if header.AccessTime.IsZero() {
+		header.AccessTime = f.Info.ModTime()
+	}
+
+	if header.ChangeTime.IsZero() {
+		header.ChangeTime = f.Info.ModTime()
 	}
 
 	header.Name = f.Name
