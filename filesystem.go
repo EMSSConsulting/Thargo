@@ -21,13 +21,13 @@ func (t *FileSystemTarget) Entries() ([]Entry, error) {
 	if filepath.IsAbs(t.Pattern) {
 		return t.forAbsolutePath(t.Pattern)
 	}
-  
+
 	basePath, err := filepath.Abs(t.Path)
 	if err != nil {
 		return nil, err
 	}
 
-	fullPath := path.Join(basePath, t.Pattern)
+	fullPath := path.Join(basePath, filepath.FromSlash(t.Pattern))
 
 	// Check if the file/folder exists, if it does then treat it as
 	// an absolute path (possibly enumerating a directory's contents)

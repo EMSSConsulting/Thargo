@@ -15,7 +15,7 @@ func TestFileSystemTarget(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-  
+
 	if len(entries) == 0 {
 		t.Fatal("Expected an entry to be found for *.md")
 	}
@@ -57,7 +57,7 @@ func TestFileSystemTargetAbsolutePattern(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-  
+
 	if len(entries) == 0 {
 		t.Fatal("Expected an entry to be found for README's absolute path")
 	}
@@ -79,7 +79,7 @@ func TestFileSystemTargetAbsolutePattern(t *testing.T) {
 func TestFileSystemTargetDirectory(t *testing.T) {
 	target := FileSystemTarget{
 		Path:    "../",
-		Pattern: "thargo",
+		Pattern: "Thargo",
 	}
 
 	entries, err := target.Entries()
@@ -89,9 +89,9 @@ func TestFileSystemTargetDirectory(t *testing.T) {
 
 	if len(entries) < 20 {
 		t.Errorf("Expected at least 20 entries to be found, only got %d", len(entries))
-    t.Log("Entries")
-    for _, entry := range entries {
-      t.Logf(" - %#v", entry)
-    }
+		t.Log("Entries")
+		for _, entry := range entries {
+			t.Logf(" - %#v", entry)
+		}
 	}
 }
