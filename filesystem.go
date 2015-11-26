@@ -73,7 +73,7 @@ func (t *FileSystemTarget) forAbsolutePath(path string) ([]Entry, error) {
 func (t *FileSystemTarget) forGlobPath(basePath, glob string) ([]Entry, error) {
 	entries := []Entry{}
 
-	matches, err := doublestar.Glob(basePath, glob)
+	matches, err := doublestar.GlobFrom(basePath, glob)
 	if err != nil {
 		return nil, err
 	}
