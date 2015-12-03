@@ -88,8 +88,10 @@ func (t *FileSystemTarget) forGlobPath(basePath, glob string) ([]Entry, error) {
 		if err != nil {
 			return nil, err
 		}
-
-		entries = append(entries, &FileEntry{Name: relativePath, Path: match, Info: f})
+    
+    if !f.IsDir() {
+		  entries = append(entries, &FileEntry{Name: relativePath, Path: match, Info: f})
+    }
 	}
 
 	return entries, nil
