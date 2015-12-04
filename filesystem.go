@@ -77,9 +77,14 @@ func (t *FileSystemTarget) forGlobPath(basePath, glob string) ([]Entry, error) {
 	if err != nil {
 		return nil, err
 	}
+  
+  homePath, err := filepath.Abs(t.Path)
+  if err != nil {
+    return nil, err
+  } 
 
 	for _, match := range matches {
-		relativePath, err := filepath.Rel(basePath, match)
+		relativePath, err := filepath.Rel(homePath, match)
 		if err != nil {
 			return nil, err
 		}
