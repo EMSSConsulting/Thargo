@@ -15,19 +15,19 @@ type DecompressionVisitor func(entry SaveableEntry) error
 // directory.
 func (a *Archive) Extract(visit DecompressionVisitor) error {
 	reader, err := a.reader()
-  if err == io.EOF {
-    return nil
-  }
-  
+	if err == io.EOF {
+		return nil
+	}
+
 	if err != nil {
 		return err
 	}
 
 	for {
 		entry, err := newDecompressionEntry(reader)
-    if err == io.EOF {
-      return nil
-    } else if err != nil {
+		if err == io.EOF {
+			return nil
+		} else if err != nil {
 			return err
 		}
 
@@ -38,10 +38,10 @@ func (a *Archive) Extract(visit DecompressionVisitor) error {
 		err = visit(entry)
 		entry.data.Close()
 
-    if err == io.EOF {
-      return nil
-    } else if err != nil {
+		if err == io.EOF {
+			return nil
+		} else if err != nil {
 			return err
-    }
+		}
 	}
 }

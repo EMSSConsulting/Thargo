@@ -19,10 +19,14 @@ func TestDecompressionEntry(t *testing.T) {
 		Content: "test",
 	}
 
-	err := core.Add(target)
+	added, err := core.Add(target)
 	if err != nil {
 		t.Fatalf("Failed to compress file: %s", err)
 	}
+  
+  if added != 1 {
+    t.Errorf("Expected one entry to be added to the archive")
+  }
 
 	wasExtracted := false
 
