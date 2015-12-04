@@ -1,7 +1,7 @@
 package thargo
 
 // Add will add a compression target to this archive.
-func (a *Archive) Add(target Target) error {
+func (a *Archive) Add(target Target) (int, error) {
 	return a.AddFiltered([]Target{target}, Filter{})
 }
 
@@ -26,7 +26,7 @@ type Filter struct {
 // This can be used to ensure that duplicates are not
 // added, if that is a concern, or simply to be notified
 // of each file which was added to the archive.
-func (a *Archive) AddIf(target Target, predicate EntryFilterFunc) error {
+func (a *Archive) AddIf(target Target, predicate EntryFilterFunc) (int, error) {
 	return a.AddFiltered([]Target{target}, Filter{
 		Entry: predicate,
 	})
@@ -36,7 +36,7 @@ func (a *Archive) AddIf(target Target, predicate EntryFilterFunc) error {
 // and their entries to the archive if they pass the given predicate.
 // This can be used to implement things like only updating the archive
 // if the source has been updated for example.
-func (a *Archive) AddAllIf(targets []Target, predicate EntriesFilterFunc) error {
+func (a *Archive) AddAllIf(targets []Target, predicate EntriesFilterFunc) (int, error) {
 	return a.AddFiltered(targets, Filter{
 		Entries: predicate,
 	})
@@ -47,28 +47,30 @@ func (a *Archive) AddAllIf(targets []Target, predicate EntriesFilterFunc) error 
 // in the archive.
 // This function is intended for use cases where you require the functionality
 // available in AddIf and AddAllIf in one combined solution.
-func (a *Archive) AddFiltered(targets []Target, filter Filter) error {
+func (a *Archive) AddFiltered(targets []Target, filter Filter) (int, error) {
 	entries := []Entry{}
 	for _, target := range targets {
 		e, err := target.Entries()
 		if err != nil {
-			return err
+			return 0, err
 		}
 
 		entries = append(entries, e...)
 	}
 
 	if filter.Entries != nil && !filter.Entries(entries) {
-		return nil
+		return 0, nil
 	}
 
 	writer, err := a.writer()
 	if err != nil {
-		return err
+		return 0, err
 	}
 
 	defer writer.Flush()
 	defer writer.Close()
+  
+  added := 0
 
 	for _, entry := range entries {
 		if filter.Entry != nil && !filter.Entry(entry) {
@@ -77,9 +79,11 @@ func (a *Archive) AddFiltered(targets []Target, filter Filter) error {
 
 		err := writer.Write(entry)
 		if err != nil {
-			return err
+			return 0, err
 		}
+    
+    added++
 	}
 
-	return nil
+	return added, nil
 }

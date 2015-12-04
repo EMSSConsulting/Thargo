@@ -20,7 +20,7 @@ func ExampleRoundTrip() {
 
 	fmt.Printf("Target (%s): %s\n", target.Name, target.Content)
 
-	if err := archive.Add(target); err != nil {
+	if _, err := archive.Add(target); err != nil {
 		log.Fatal(err)
 	}
 

@@ -18,10 +18,14 @@ func TestAddToArchive(t *testing.T) {
 		Content: "test",
 	}
 
-	err := core.Add(target)
+	added, err := core.Add(target)
 	if err != nil {
 		t.Fatal(err)
 	}
+  
+  if added != 1 {
+    t.Errorf("Expected one entry to be added to the archive")
+  }
 
 	reader, err := core.reader()
 	if err != nil {
@@ -47,7 +51,7 @@ func TestAddIf(t *testing.T) {
 		Content: "test",
 	}
 
-	err := core.AddIf(target, func(entry Entry) bool {
+	added, err := core.AddIf(target, func(entry Entry) bool {
 		return true
 	})
 
@@ -55,6 +59,10 @@ func TestAddIf(t *testing.T) {
 		t.Fatal(err)
 	}
 
+  if added != 1 {
+    t.Errorf("Expected one entry to be added to the archive")
+  }
+  
 	reader, err := core.reader()
 	if err != nil {
 		t.Fatal(err)
@@ -65,13 +73,17 @@ func TestAddIf(t *testing.T) {
 		t.Errorf("Expected reader to read a header from the archive")
 	}
 
-	err = core.AddIf(target, func(entry Entry) bool {
+	added, err = core.AddIf(target, func(entry Entry) bool {
 		return false
 	})
 
 	if err != nil {
 		t.Fatal(err)
 	}
+  
+  if added != 0 {
+    t.Errorf("Expected nothing to be added to the archive")
+  }
 
 	header, _ = reader.Next()
 	if header != nil {
