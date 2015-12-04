@@ -3,8 +3,8 @@ package thargo
 // Add will add a compression target to this archive.
 func (a *Archive) Add(target Target) error {
 	return a.AddIf(target, func(entry Entry) bool {
-    return true
-  })
+		return true
+	})
 }
 
 // EntryFilterFunc is used in conjunction with AddIf to
@@ -17,7 +17,7 @@ type EntryFilterFunc func(entry Entry) bool
 // added, if that is a concern, or simply to be notified
 // of each file which was added to the archive.
 func (a *Archive) AddIf(target Target, predicate EntryFilterFunc) error {
-  writer, err := a.writer()
+	writer, err := a.writer()
 	if err != nil {
 		return err
 	}
@@ -31,12 +31,12 @@ func (a *Archive) AddIf(target Target, predicate EntryFilterFunc) error {
 	}
 
 	for _, entry := range entries {
-    if predicate(entry) {
-      err = writer.Write(entry)
-      if err != nil {
-        return err
-      }
-    }
+		if predicate(entry) {
+			err = writer.Write(entry)
+			if err != nil {
+				return err
+			}
+		}
 	}
 
 	return nil
